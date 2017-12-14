@@ -4,19 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squaregroup.rxandroiddemo.androidversion.Android;
 import com.squaregroup.rxandroiddemo.androidversion.AndroidRetrofitHelper;
+import com.squaregroup.rxandroiddemo.androidversion.DataResponse;
 import com.squaregroup.rxandroiddemo.androidversion.RequestInterface;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class AndroidVersionActivity extends AppCompatActivity {
@@ -52,24 +51,42 @@ public class AndroidVersionActivity extends AppCompatActivity {
     }
 
     public void loadJson(){
-        mCompositeDisposable.add(requestInterface.getVersionList()
+        mCompositeDisposable.add(requestInterface.getResponse()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<List<Android>>() {
+                .map(new Function<DataResponse,DataResponse>() {
                     @Override
-                    public void accept(List<Android> androids) throws Exception {
-                        handleResponse(androids);
+                    public DataResponse apply(
+                            @io.reactivex.annotations.NonNull final DataResponse dataResponse)
+                            throws Exception {
+
+                        Log.e("DataResponse","apply Called 1");
+
+                        return dataResponse;
+                    }
+                })
+                .subscribe(new Consumer<DataResponse>() {
+                    @Override
+                    public void accept(DataResponse dataResponse) throws Exception {
+                        Log.e("DataResponse","subscribe Called 2");
+
+                        handleResponse(dataResponse);
                     }
                 }));
     }
 
-    private void handleResponse(List<Android> androidList) {
+    private void handleResponse(DataResponse dataResponse) {
+
+        Log.e("DataResponse","handleResponse Called 3");
+
         final StringBuilder output = new StringBuilder();
-        for (final Android android : androidList) {
-            output.append(android.name).append("\n");
+        for (final Android android : dataResponse.getAndroidVersionsList()) {
+            output.append(android.getName()).append("\n");
         }
 
-        mOutputTextView.setText(output.toString());
+        mOutputTextView.setText(dataResponse.getStatus()+" "+dataResponse.getMessage()+"\n"+output.toString());
+
+
     }
 
 

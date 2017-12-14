@@ -11,5 +11,6 @@ import retrofit2.http.GET;
 
 public interface RequestInterface {
     @GET("5409b6cc-e08e-11e7-8b56-1394d3b6c86a/")
-    Observable<List<Android>> getVersionList();
+   // Observable<List<Android>> getVersionList();
+    Observable<DataResponse> getResponse();
 }
