@@ -1,4 +1,4 @@
-package com.squaregroup.rxandroiddemo.androidversion;
+package com.squaregroup.rxandroiddemo.network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,9 +14,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AndroidRetrofitHelper {
     public static final String BASE_URL = "https://jsonblob.com/api/";
 
-    public RequestInterface requestService() {
+    public RequestService requestService() {
         final Retrofit retrofit = createRetrofit();
-        return retrofit.create(RequestInterface.class);
+        return retrofit.create(RequestService.class);
     }
 
     private Retrofit createRetrofit() {

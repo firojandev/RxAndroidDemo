@@ -1,20 +1,16 @@
 package com.squaregroup.rxandroiddemo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.util.Log;
 import android.widget.TextView;
 
-import com.squaregroup.rxandroiddemo.network.CityResponse;
-import com.squaregroup.rxandroiddemo.network.CityService;
-import com.squaregroup.rxandroiddemo.network.Geoname;
-import com.squaregroup.rxandroiddemo.network.RetrofitHelper;
-
-import java.util.List;
+import com.squaregroup.rxandroiddemo.model.Android;
+import com.squaregroup.rxandroiddemo.network.AndroidRetrofitHelper;
+import com.squaregroup.rxandroiddemo.model.DataResponse;
+import com.squaregroup.rxandroiddemo.network.RequestService;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -22,79 +18,81 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-
 public class MainActivity extends AppCompatActivity {
 
-    private MainActivity activity = this;
+    private CompositeDisposable mCompositeDisposable;
 
-    @NonNull
-    private CityService mCityService;
-
-
-     @NonNull
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private RequestService requestService;
 
     private TextView mOutputTextView;
+
+    public static void start(Activity activity){
+        Intent intent = new Intent(activity,MainActivity.class);
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initialize();
+
+        loadJson();
+    }
+
+    public void initialize(){
+
         mOutputTextView = (TextView) findViewById(R.id.textViewResult);
 
-        mCityService = new RetrofitHelper().getCityService();
+        requestService = new AndroidRetrofitHelper().requestService();
 
-        requestGeonames();
-
+        mCompositeDisposable = new CompositeDisposable();
     }
 
-    @Override
-    protected void onDestroy() {
-        mCompositeDisposable.clear();
-        super.onDestroy();
+    public void loadJson(){
+        mCompositeDisposable.add(requestService.getResponse()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .map(new Function<DataResponse,DataResponse>() {
+                    @Override
+                    public DataResponse apply(
+                            @io.reactivex.annotations.NonNull final DataResponse dataResponse)
+                            throws Exception {
+
+                        Log.e("DataResponse","apply Called 1");
+
+                        return dataResponse;
+                    }
+                })
+                .subscribe(new Consumer<DataResponse>() {
+                    @Override
+                    public void accept(DataResponse dataResponse) throws Exception {
+                        Log.e("DataResponse","subscribe Called 2");
+
+                        handleResponse(dataResponse);
+                    }
+                }));
     }
 
-    private void displayGeonames(@NonNull final List<Geoname> geonames) {
+    private void handleResponse(DataResponse dataResponse) {
+
+        Log.e("DataResponse","handleResponse Called 3");
+
         final StringBuilder output = new StringBuilder();
-        for (final Geoname geoname : geonames) {
-            output.append(geoname.name).append("\n");
+        for (final Android android : dataResponse.getAndroidVersionsList()) {
+            output.append(android.getName()).append("\n");
         }
 
-        mOutputTextView.setText(output.toString());
-    }
+        mOutputTextView.setText(dataResponse.getStatus()+" "+dataResponse.getMessage()+"\n"+output.toString());
 
-    private void requestGeonames() {
-        mCompositeDisposable.add(mCityService.queryGeonames(44.1, -9.9, -22.4, 55.2, "de")
-                .subscribeOn(Schedulers.io()) // "work" on io thread
-                .observeOn(AndroidSchedulers.mainThread()) // "listen" on UIThread
-                .map(new Function<CityResponse, List<Geoname>>() {
-                    @Override
-                    public List<Geoname> apply(
-                            @io.reactivex.annotations.NonNull final CityResponse cityResponse)
-                            throws Exception {
 
-                        return cityResponse.geonames;
-                    }
-                })
-                .subscribe(new Consumer<List<Geoname>>() {
-                    @Override
-                    public void accept(
-                            @io.reactivex.annotations.NonNull final List<Geoname> geonames)
-                            throws Exception {
-                        displayGeonames(geonames);
-                    }
-                })
-        );
     }
 
 
-    public void goNext(View view){
-       MyCustomActivity.start(activity);
-    }
-
-    public void clickOnOk(View view){
-        AndroidVersionActivity.start(activity);
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.clear();
     }
 }

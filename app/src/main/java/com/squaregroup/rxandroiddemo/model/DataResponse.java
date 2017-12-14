@@ -1,7 +1,8 @@
-package com.squaregroup.rxandroiddemo.androidversion;
+package com.squaregroup.rxandroiddemo.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.squaregroup.rxandroiddemo.model.Android;
 
 import java.util.ArrayList;
 import java.util.List;
