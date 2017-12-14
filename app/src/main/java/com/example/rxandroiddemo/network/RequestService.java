@@ -1,6 +1,6 @@
-package com.squaregroup.rxandroiddemo.network;
+package com.example.rxandroiddemo.network;
 
-import com.squaregroup.rxandroiddemo.model.DataResponse;
+import com.example.rxandroiddemo.model.DataResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

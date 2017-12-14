@@ -1,4 +1,4 @@
-package com.squaregroup.rxandroiddemo.network;
+package com.example.rxandroiddemo.network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

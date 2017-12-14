@@ -1,4 +1,4 @@
-package com.squaregroup.rxandroiddemo;
+package com.example.rxandroiddemo;
 
 import org.junit.Test;
 
