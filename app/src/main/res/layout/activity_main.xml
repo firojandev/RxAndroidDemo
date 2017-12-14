@@ -13,8 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:padding="10dp"
-        android:text="TextView" />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="Data loading..."
+        android:textColor="@android:color/white"
+        android:background="@android:color/black"/>
 
 
     <android.support.v7.widget.RecyclerView
@@ -22,6 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/textViewResult"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
 
 </RelativeLayout>

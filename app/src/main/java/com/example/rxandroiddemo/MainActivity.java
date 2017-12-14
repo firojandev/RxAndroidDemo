@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.rxandroiddemo.adapter.MyDataAdapter;
@@ -79,6 +80,18 @@ public class MainActivity extends AppCompatActivity {
         requestService = new AndroidRetrofitHelper().requestService();
 
         mCompositeDisposable = new CompositeDisposable();
+
+
+
+        //Just test purpose onclick
+
+        mOutputTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TestActivity.start(activity);
+            }
+        });
+
     }
 
 
