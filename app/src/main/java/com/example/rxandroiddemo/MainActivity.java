@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.example.rxandroiddemo.adapter.MyDataAdapter;
 import com.example.rxandroiddemo.model.Android;
 import com.example.rxandroiddemo.network.AndroidRetrofitHelper;
 import com.example.rxandroiddemo.model.DataResponse;
@@ -36,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
     List<Android> aLists = new ArrayList<>();
 
+    private RecyclerView mRecyclerView;
+
+    private MyDataAdapter myDataAdapter;
+
+
     //https://jsonblob.com/9f488cdb-e0af-11e7-8b56-ff10fe99343b
     //https://jsonblob.com/api/9f488cdb-e0af-11e7-8b56-ff10fe99343b
 
@@ -57,14 +66,25 @@ public class MainActivity extends AppCompatActivity {
     public void initialize(){
 
         mOutputTextView = (TextView) findViewById(R.id.textViewResult);
+        mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
+
+        myDataAdapter = new MyDataAdapter(aLists);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(myDataAdapter);
+
 
         requestService = new AndroidRetrofitHelper().requestService();
 
         mCompositeDisposable = new CompositeDisposable();
     }
 
+
     public void loadJson(){
-//Alternate way
+
+        //Alternate way
 //        mCompositeDisposable.add(requestService.getResponse()
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribeOn(Schedulers.io())
@@ -120,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             aLists.clear();
             aLists.addAll(dataResponse.getAndroidVersionsList());
 
-
+            myDataAdapter.updateList(aLists);
 
 
         }else{

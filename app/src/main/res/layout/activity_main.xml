@@ -15,4 +15,13 @@
         android:layout_alignParentTop="true"
         android:padding="10dp"
         android:text="TextView" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textViewResult"
+        android:scrollbars="vertical" />
+
 </RelativeLayout>
