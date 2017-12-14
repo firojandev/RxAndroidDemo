@@ -11,15 +11,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.rxandroiddemo.adapter.MyDataAdapter;
-import com.example.rxandroiddemo.model.Android;
 import com.example.rxandroiddemo.network.AndroidRetrofitHelper;
 import com.example.rxandroiddemo.model.DataResponse;
 import com.example.rxandroiddemo.network.RequestService;
 import com.example.rxandroiddemo.utils.MyLog;
 import com.example.rxandroiddemo.utils.ToastUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -38,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private RequestService requestService;
 
     private TextView mOutputTextView;
-
-    List<Android> aLists = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
 
@@ -69,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         mOutputTextView = (TextView) findViewById(R.id.textViewResult);
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
 
-        myDataAdapter = new MyDataAdapter(aLists);
+        myDataAdapter = new MyDataAdapter(activity);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -80,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         requestService = new AndroidRetrofitHelper().requestService();
 
         mCompositeDisposable = new CompositeDisposable();
-
 
 
         //Just test purpose onclick
@@ -151,11 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
             mOutputTextView.setText(dataResponse.getMessage());
 
-            aLists.clear();
-            aLists.addAll(dataResponse.getAndroidVersionsList());
-
-            myDataAdapter.updateList(aLists);
-
+            myDataAdapter.updateList(dataResponse.getAndroidVersionsList());
 
         }else{
             mOutputTextView.setText(dataResponse.getMessage());

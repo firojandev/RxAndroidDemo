@@ -1,5 +1,6 @@
 package com.example.rxandroiddemo.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.example.rxandroiddemo.R;
 import com.example.rxandroiddemo.model.Android;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,8 +21,11 @@ public class MyDataAdapter extends  RecyclerView.Adapter<MyDataAdapter.MyViewHol
 
     private List<Android> aList;
 
-    public MyDataAdapter(List<Android> androidList) {
-        this.aList = androidList;
+    private Context mContext;
+
+    public MyDataAdapter(Context context) {
+        this.mContext = context;
+        this.aList = new ArrayList<>();
     }
 
     @Override
@@ -46,8 +51,7 @@ public class MyDataAdapter extends  RecyclerView.Adapter<MyDataAdapter.MyViewHol
 
 
     public void updateList(List<Android> andLists){
-        aList.addAll(andLists);
-
+       aList.addAll(andLists);
         notifyDataSetChanged();
     }
 
