@@ -133,7 +133,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         MyLog.show(TAG,"onError:"+e.toString());
-                        ToastUtils.shortToast("Error happen!. Please try later");
+                        mOutputTextView.setText("Error happen! Please try later");
+                        ToastUtils.shortToast("Error happen! Please try later");
                     }
 
                     @Override
