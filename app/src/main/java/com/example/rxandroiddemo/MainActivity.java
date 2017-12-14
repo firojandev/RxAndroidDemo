@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     List<Android> aLists = new ArrayList<>();
 
+    //https://jsonblob.com/9f488cdb-e0af-11e7-8b56-ff10fe99343b
+    //https://jsonblob.com/api/9f488cdb-e0af-11e7-8b56-ff10fe99343b
+
     public static void start(Activity activity){
         Intent intent = new Intent(activity,MainActivity.class);
         activity.startActivity(intent);
@@ -116,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
             aLists.clear();
             aLists.addAll(dataResponse.getAndroidVersionsList());
+
+
 
 
         }else{

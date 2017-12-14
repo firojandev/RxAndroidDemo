@@ -10,7 +10,7 @@ import retrofit2.http.GET;
  */
 
 public interface RequestService {
-    @GET("5409b6cc-e08e-11e7-8b56-1394d3b6c86a/")
+    @GET("9f488cdb-e0af-11e7-8b56-ff10fe99343b/")
    // Observable<List<Android>> getVersionList();
     Observable<DataResponse> getResponse();
 }
