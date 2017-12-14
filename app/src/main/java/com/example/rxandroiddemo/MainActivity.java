@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mOutputTextView;
 
-    List<Android> aLists = new ArrayList<>();
-
     public static void start(Activity activity){
         Intent intent = new Intent(activity,MainActivity.class);
         activity.startActivity(intent);
@@ -111,12 +109,13 @@ public class MainActivity extends AppCompatActivity {
     private void parseResponse(DataResponse dataResponse) {
 
         if (dataResponse.getStatus().equals("OK")){
+           
+             final StringBuilder output = new StringBuilder();
+                for (final Android android : dataResponse.getAndroidVersionsList()) {
+                    output.append(android.getName()).append("\n");
+                }
 
-            mOutputTextView.setText(dataResponse.getMessage());
-
-            aLists.clear();
-            aLists.addAll(dataResponse.getAndroidVersionsList());
-
+               mOutputTextView.setText(dataResponse.getMessage()+ "\n"+ output);
 
         }else{
             mOutputTextView.setText(dataResponse.getMessage());
