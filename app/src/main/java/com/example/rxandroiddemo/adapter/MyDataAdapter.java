@@ -51,7 +51,7 @@ public class MyDataAdapter extends  RecyclerView.Adapter<MyDataAdapter.MyViewHol
 
 
     public void updateList(List<Android> andLists){
-       aList.addAll(andLists);
+        aList.addAll(andLists);
         notifyDataSetChanged();
     }
 

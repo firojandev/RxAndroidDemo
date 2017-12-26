@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(myDataAdapter);
 
 
-        requestService = new AndroidRetrofitHelper().requestService();
+        requestService = new AndroidRetrofitHelper().requestService(activity);
 
         mCompositeDisposable = new CompositeDisposable();
 
