@@ -9,25 +9,23 @@ import io.realm.RealmObject;
  * Created by altaf.sil on 12/14/17.
  */
 
-public class Android  extends RealmObject{
-    @SerializedName("ver")
+public class TestUser extends RealmObject{
+
+    @SerializedName("id")
     @Expose
-    private String ver;
+    private int id;
+
 
     @SerializedName("name")
     @Expose
     private String name;
 
-    @SerializedName("api")
-    @Expose
-    private String api;
-
-    public String getVer() {
-        return ver;
+    public int getId() {
+        return id;
     }
 
-    public void setVer(String ver) {
-        this.ver = ver;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -36,13 +34,5 @@ public class Android  extends RealmObject{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getApi() {
-        return api;
-    }
-
-    public void setApi(String api) {
-        this.api = api;
     }
 }

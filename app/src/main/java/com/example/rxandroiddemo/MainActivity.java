@@ -11,17 +11,23 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.rxandroiddemo.adapter.MyDataAdapter;
+import com.example.rxandroiddemo.model.Android;
 import com.example.rxandroiddemo.network.AndroidRetrofitHelper;
 import com.example.rxandroiddemo.model.DataResponse;
 import com.example.rxandroiddemo.network.RequestService;
 import com.example.rxandroiddemo.utils.MyLog;
 import com.example.rxandroiddemo.utils.ToastUtils;
 
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     //https://jsonblob.com/9f488cdb-e0af-11e7-8b56-ff10fe99343b
     //https://jsonblob.com/api/9f488cdb-e0af-11e7-8b56-ff10fe99343b
 
+
+    Realm realm;
+
     public static void start(Activity activity){
         Intent intent = new Intent(activity,MainActivity.class);
         activity.startActivity(intent);
@@ -54,14 +63,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initialize();
-
-        loadJson();
     }
 
     public void initialize(){
 
         mOutputTextView = (TextView) findViewById(R.id.textViewResult);
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
+
+        realm = Realm.getDefaultInstance();
 
         myDataAdapter = new MyDataAdapter(activity);
 
@@ -74,6 +83,19 @@ public class MainActivity extends AppCompatActivity {
         requestService = new AndroidRetrofitHelper().requestService(activity);
 
         mCompositeDisposable = new CompositeDisposable();
+
+
+
+        RealmResults<Android> anList= realm.where(Android.class).findAll();
+
+        if (anList.size()>0){
+            MyLog.show(TAG,"already data exist");
+            myDataAdapter.updateList(anList);
+        }else{
+            MyLog.show(TAG,"Connected with network");
+            loadJson();
+        }
+
 
 
         //Just test purpose onclick
@@ -114,13 +136,24 @@ public class MainActivity extends AppCompatActivity {
                 }));
     }
 
-    private void parseResponse(DataResponse dataResponse) {
+    private void parseResponse(final DataResponse dataResponse) {
 
         if (dataResponse.getStatus().equals("OK")){
 
             mOutputTextView.setText(dataResponse.getMessage());
 
+            MyLog.show("parseResponse","list size:"+dataResponse.getAndroidVersionsList().size());
+
+             realm.executeTransaction(new Realm.Transaction() {
+                 @Override
+                 public void execute(Realm realm) {
+                     realm.insertOrUpdate(dataResponse.getAndroidVersionsList());
+                 }
+             });
+
+
             myDataAdapter.updateList(dataResponse.getAndroidVersionsList());
+
 
         }else{
             mOutputTextView.setText(dataResponse.getMessage());

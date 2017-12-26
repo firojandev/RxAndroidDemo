@@ -6,11 +6,15 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
 /**
  * Created by altaf.sil on 12/14/17.
  */
 
-public class DataResponse {
+public class DataResponse extends RealmObject {
+
     @SerializedName("status")
     @Expose
     private String status;
@@ -22,7 +26,7 @@ public class DataResponse {
 
     @SerializedName("data")
     @Expose
-    private List<Android> androidVersionsList = new ArrayList<Android>();
+    private RealmList<Android> androidVersionsList = new RealmList<>();
 
 
     public String getStatus() {
@@ -45,7 +49,7 @@ public class DataResponse {
         return androidVersionsList;
     }
 
-    public void setAndroidVersionsList(List<Android> androidVersionsList) {
+    public void setAndroidVersionsList(RealmList<Android> androidVersionsList) {
         this.androidVersionsList = androidVersionsList;
     }
 }
