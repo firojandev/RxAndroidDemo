@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.rxandroiddemo.adapter.MyDataAdapter;
 import com.example.rxandroiddemo.model.Android;
+import com.example.rxandroiddemo.model.TestUser;
 import com.example.rxandroiddemo.network.AndroidRetrofitHelper;
 import com.example.rxandroiddemo.model.DataResponse;
 import com.example.rxandroiddemo.network.RequestService;
@@ -86,10 +87,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        TestUser testUser = realm.where(TestUser.class).equalTo("name","Altaf").findFirst();
+        if (testUser != null)
+            mOutputTextView.setText(testUser.getName());
+
+
         RealmResults<Android> anList= realm.where(Android.class).findAll();
 
         if (anList.size()>0){
             MyLog.show(TAG,"already data exist");
+
             myDataAdapter.updateList(anList);
         }else{
             MyLog.show(TAG,"Connected with network");
