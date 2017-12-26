@@ -34,6 +34,8 @@ public class StarterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_starter);
 
         initialize();
+
+        handleLogin();
     }
 
     public void initialize(){
@@ -42,16 +44,16 @@ public class StarterActivity extends AppCompatActivity {
         mCompositeDisposable = new CompositeDisposable();
     }
 
+    public void handleLogin(){
+        TestUser testUser = realm.where(TestUser.class).equalTo("name","Altaf").findFirst();
+        if (testUser != null){
+            MainActivity.start(activity);
+        }
+    }
+
 
     public void goNext(View view){
-       TestUser testUser = realm.where(TestUser.class).equalTo("name","Altaf").findFirst();
-
-       if (testUser != null){
-           MainActivity.start(activity);
-       }else{
-           connectToServer();
-       }
-
+        connectToServer();
     }
 
 
@@ -77,6 +79,7 @@ public class StarterActivity extends AppCompatActivity {
                         if (testUser.getName().equals("Altaf")){
                             parseResponse(testUser);
                             MainActivity.start(activity);
+                            finish();
                         }else{
                             ToastUtils.shortToast("Invalid user credentials!");
                         }
