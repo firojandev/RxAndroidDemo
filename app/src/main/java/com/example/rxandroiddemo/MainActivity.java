@@ -90,30 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadJson(){
 
-        //Alternate way
-//        mCompositeDisposable.add(requestService.getResponse()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .map(new Function<DataResponse,DataResponse>() {
-//                    @Override
-//                    public DataResponse apply(
-//                            @io.reactivex.annotations.NonNull final DataResponse dataResponse)
-//                            throws Exception {
-//
-//                        Log.e("DataResponse","apply Called 1");
-//
-//                        return dataResponse;
-//                    }
-//                })
-//                .subscribe(new Consumer<DataResponse>() {
-//                    @Override
-//                    public void accept(DataResponse dataResponse) throws Exception {
-//                        Log.e("DataResponse","subscribe Called 2");
-//
-//                        handleResponse(dataResponse);
-//                    }
-//                }));
-
         mCompositeDisposable.add(requestService.getResponse()
                 .subscribeOn(Schedulers.io())  // Run on a background thread
                 .observeOn(AndroidSchedulers.mainThread()) // Be notified on the main thread
