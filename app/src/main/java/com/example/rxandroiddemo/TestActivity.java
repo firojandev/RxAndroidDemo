@@ -14,6 +14,9 @@ public class TestActivity extends AppCompatActivity {
 
     private TestActivity activity = this;
 
+    //Multipart image upload
+    //https://futurestud.io/tutorials/retrofit-2-how-to-upload-a-dynamic-amount-of-files-to-server
+
     Realm realm;
 
     public static void start(Activity activity){
