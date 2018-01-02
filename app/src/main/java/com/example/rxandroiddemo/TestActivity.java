@@ -16,6 +16,8 @@ public class TestActivity extends AppCompatActivity {
 
     //Multipart image upload
     //https://futurestud.io/tutorials/retrofit-2-how-to-upload-a-dynamic-amount-of-files-to-server
+    
+    //http://androidkt.com/sms-retriever-api/
 
     Realm realm;
 
