@@ -53,7 +53,9 @@ public class StarterActivity extends AppCompatActivity {
 
 
     public void goNext(View view){
-        connectToServer();
+       // connectToServer();
+
+        RealmTestActivity.start(activity);
     }
 
 

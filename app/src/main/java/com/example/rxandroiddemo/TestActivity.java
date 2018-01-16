@@ -17,6 +17,9 @@ public class TestActivity extends AppCompatActivity {
     //Multipart image upload
     //https://futurestud.io/tutorials/retrofit-2-how-to-upload-a-dynamic-amount-of-files-to-server
 
+    //Wifi adb : ned to keep same network
+    //https://plugins.jetbrains.com/plugin/7983-android-wifi-adb
+
     Realm realm;
 
     public static void start(Activity activity){
