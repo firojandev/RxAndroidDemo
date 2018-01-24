@@ -22,6 +22,8 @@ public class TestActivity extends AppCompatActivity {
     //Wifi adb : ned to keep same network
     //https://plugins.jetbrains.com/plugin/7983-android-wifi-adb
 
+    //http://www.digitstory.com/recyclerview-multiple-viewholders/
+
     Realm realm;
 
     public static void start(Activity activity){
