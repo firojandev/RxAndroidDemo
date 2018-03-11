@@ -24,6 +24,8 @@ public class TestActivity extends AppCompatActivity {
 
     //http://www.digitstory.com/recyclerview-multiple-viewholders/
 
+    //https://www.ryadel.com/en/android-proportionally-stretch-imageview-fit-whole-screen-width-maintaining-aspect-ratio/
+
     Realm realm;
 
     public static void start(Activity activity){
